@@ -102,6 +102,23 @@ services:
     networks:
       - web
 
+  # ==========================================================
+  # test.localhost
+  # ==========================================================
+
+  php-test:
+    image: php:8.5-fpm
+    container_name: multidomain-php-test
+
+    volumes:
+      - ./sites/test:/var/www/sites/test
+      - ./shared:/var/www/shared
+
+    cpus: "1.00"
+    mem_limit: 1g
+
+    networks:
+      - web
 
 networks:
   web:
