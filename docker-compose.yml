@@ -1,6 +1,31 @@
 services:
 
   # ==========================================================
+  # SFTP
+  # ==========================================================
+  sftp:
+    image: atmoz/sftp:latest
+    container_name: multidomain-sftp
+
+    ports:
+      - "2222:22"
+
+    volumes:
+      - ./sites:/home/developer/sites
+      - ./shared:/home/developer/shared
+
+      - ./sites/app1:/home/app1/app1
+      - ./sites/shop:/home/shop/shop
+
+    command:
+      - developer:developer-password:1000:1000
+      - app1:app1-password:1000:1000
+      - shop:shop-password:1000:1000
+
+    networks:
+      - web
+
+  # ==========================================================
   # Apache
   # ==========================================================
 
