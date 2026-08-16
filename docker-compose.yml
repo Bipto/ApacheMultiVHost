@@ -21,6 +21,7 @@ services:
       - php-app1
       - php-app2
       - php-shop
+      - php-test
 
     networks:
       - web
@@ -35,8 +36,8 @@ services:
     container_name: multidomain-php-main
 
     volumes:
-      - ./sites/main:/var/www/sites/main
-      - ./shared:/var/www/shared
+      - ./sites/main:/var/www/sites/main:ro
+      - ./shared:/var/www/shared:ro
 
     cpus: "0.50"
     mem_limit: 512m
@@ -54,8 +55,8 @@ services:
     container_name: multidomain-php-app1
 
     volumes:
-      - ./sites/app1:/var/www/sites/app1
-      - ./shared:/var/www/shared
+      - ./sites/app1:/var/www/sites/app1:ro
+      - ./shared:/var/www/shared:ro
       - ./php/app1/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
 
     cpus: "0.50"
@@ -74,8 +75,8 @@ services:
     container_name: multidomain-php-app2
 
     volumes:
-      - ./sites/app2:/var/www/sites/app2
-      - ./shared:/var/www/shared
+      - ./sites/app2:/var/www/sites/app2:ro
+      - ./shared:/var/www/shared:ro
 
     cpus: "0.50"
     mem_limit: 512m
@@ -93,8 +94,8 @@ services:
     container_name: multidomain-php-shop
 
     volumes:
-      - ./sites/shop:/var/www/sites/shop
-      - ./shared:/var/www/shared
+      - ./sites/shop:/var/www/sites/shop:ro
+      - ./shared:/var/www/shared:ro
 
     cpus: "1.00"
     mem_limit: 1g
@@ -111,8 +112,8 @@ services:
     container_name: multidomain-php-test
 
     volumes:
-      - ./sites/test:/var/www/sites/test
-      - ./shared:/var/www/shared
+      - ./sites/test:/var/www/sites/test:ro
+      - ./shared:/var/www/shared:ro
 
     cpus: "1.00"
     mem_limit: 1g
