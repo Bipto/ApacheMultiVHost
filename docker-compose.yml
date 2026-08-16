@@ -1,27 +1,107 @@
 services:
 
+  # ==========================================================
+  # Apache
+  # ==========================================================
+
   apache:
     build:
       context: ./apache
     container_name: multidomain-apache
+
     ports:
       - "80:80"
+
     volumes:
-      - ./sites:/var/www/sites
-      - ./shared:/var/www/shared
+      - ./sites:/var/www/sites:ro
+      - ./shared:/var/www/shared:ro
+
     depends_on:
-      - php
+      - php-main
+      - php-app1
+      - php-app2
+      - php-shop
+
     networks:
       - web
 
-  php:
+
+  # ==========================================================
+  # Main localhost site
+  # ==========================================================
+
+  php-main:
     image: php:8.5-fpm
-    container_name: multidomain-php
+    container_name: multidomain-php-main
+
     volumes:
-      - ./sites:/var/www/sites
+      - ./sites/main:/var/www/sites/main
       - ./shared:/var/www/shared
+
+    cpus: "0.50"
+    mem_limit: 512m
+
     networks:
       - web
+
+
+  # ==========================================================
+  # app1.localhost
+  # ==========================================================
+
+  php-app1:
+    image: php:8.5-fpm
+    container_name: multidomain-php-app1
+
+    volumes:
+      - ./sites/app1:/var/www/sites/app1
+      - ./shared:/var/www/shared
+      - ./php/app1/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+
+    cpus: "0.50"
+    mem_limit: 512m
+
+    networks:
+      - web
+
+
+  # ==========================================================
+  # app2.localhost
+  # ==========================================================
+
+  php-app2:
+    image: php:8.5-fpm
+    container_name: multidomain-php-app2
+
+    volumes:
+      - ./sites/app2:/var/www/sites/app2
+      - ./shared:/var/www/shared
+
+    cpus: "0.50"
+    mem_limit: 512m
+
+    networks:
+      - web
+
+
+  # ==========================================================
+  # shop.localhost
+  # ==========================================================
+
+  php-shop:
+    image: php:8.5-fpm
+    container_name: multidomain-php-shop
+
+    volumes:
+      - ./sites/shop:/var/www/sites/shop
+      - ./shared:/var/www/shared
+
+    cpus: "1.00"
+    mem_limit: 1g
+
+    networks:
+      - web
+
 
 networks:
   web:

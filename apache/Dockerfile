@@ -9,4 +9,5 @@ RUN sed -i \
 
 COPY vhost.conf /usr/local/apache2/conf/extra/vhost.conf
 
-RUN echo "Include conf/extra/vhost.conf" >> /usr/local/apache2/conf/httpd.conf
+RUN echo "Include conf/extra/vhost.conf" \
+    >> /usr/local/apache2/conf/httpd.conf
